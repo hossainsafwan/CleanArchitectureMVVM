@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.cleanarchitecture.domain.GetCountryUseCase
+import com.example.cleanarchitecture.domain.usecases.GetCountryUseCase
 import com.example.cleanarchitecture.domain.models.Result
 import com.example.cleanarchitecture.util.Resource
 import kotlinx.coroutines.flow.collectLatest

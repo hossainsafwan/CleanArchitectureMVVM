@@ -9,7 +9,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.cleanarchitecture.data.network.RetrofitInstance
 import com.example.cleanarchitecture.data.repositories.AllCountriesRepositoryImpl
 import com.example.cleanarchitecture.databinding.ActivityMainBinding
-import com.example.cleanarchitecture.domain.GetCountryUseCaseImpl
+import com.example.cleanarchitecture.domain.usecases.GetCountryUseCaseImpl
 import com.example.cleanarchitecture.ui.viewmodels.CountryViewModel
 import com.example.cleanarchitecture.ui.viewmodels.factories.CountryViewModelFactory
 import com.example.cleanarchitecture.ui.views.CountryListAdapter
