@@ -2,6 +2,8 @@ package com.example.cleanarchitecture.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.cleanarchitecture.data.network.RetrofitInstance
@@ -29,13 +31,17 @@ class MainActivity : AppCompatActivity() {
         )
         val viewModel = ViewModelProvider(this, viewModelFactory)[CountryViewModel::class.java]
 
-        viewModel.countryList?.observe(this, Observer {
+        viewModel.countryModel?.observe(this, Observer {
             binding.countryList.adapter = CountryListAdapter().apply {
-                submitList(it)
+                submitList(it.countryList)
+            }
+            binding.progressBar.isVisible = it.isLoading
+            it.errorMessage?.let {
+                Toast.makeText(this, getString(it), Toast.LENGTH_SHORT).show()
             }
         })
 
-        if (viewModel.countryList?.value == null) {
+        if (viewModel.countryModel?.value == null) {
             viewModel.getCountries()
         }
 

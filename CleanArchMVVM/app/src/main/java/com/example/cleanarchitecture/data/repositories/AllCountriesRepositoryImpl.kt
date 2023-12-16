@@ -20,7 +20,7 @@ class AllCountriesRepositoryImpl(private val countryAPI: CountryAPI) : AllCountr
         } catch (e: HttpException) {
             emit(Resource.Error(message = R.string.server_error))
         } catch (e: IOException) {
-            emit(Resource.Error(message = R.string.server_error))
+            emit(Resource.Error(message = R.string.network_error))
         } catch (e: Exception) {
             emit(Resource.Error(message = R.string.general_error))
         }
