@@ -7,6 +7,8 @@ import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import coil.ImageLoader
 import coil.decode.SvgDecoder
 import coil.load
+import coil.request.CachePolicy
+import coil.util.DebugLogger
 import com.example.cleanarchitecture.R
 import com.example.cleanarchitecture.data.models.Country
 import com.example.cleanarchitecture.databinding.CountryItemBinding
@@ -23,7 +25,11 @@ class CountryListAdapter :
                 .components {
                     add(SvgDecoder.Factory())
                 }
+                .memoryCachePolicy(CachePolicy.ENABLED)
+                .diskCachePolicy(CachePolicy.ENABLED)
+                .logger(DebugLogger())
                 .build()
+
             binding.flagIcon.load(country.image, imageLoader) {
                 error(
                     binding.flagIcon.context.resources.getDrawable(
