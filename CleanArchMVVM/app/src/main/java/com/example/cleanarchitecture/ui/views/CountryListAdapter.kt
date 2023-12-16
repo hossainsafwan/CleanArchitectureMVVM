@@ -30,7 +30,7 @@ class CountryListAdapter :
                 .logger(DebugLogger())
                 .build()
 
-            binding.flagIcon.load(country.image, imageLoader) {
+            binding.flagIcon.load(country.imageURL, imageLoader) {
                 error(
                     binding.flagIcon.context.resources.getDrawable(
                         R.drawable.ic_flag, null

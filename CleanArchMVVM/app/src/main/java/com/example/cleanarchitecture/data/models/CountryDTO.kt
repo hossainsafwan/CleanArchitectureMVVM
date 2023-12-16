@@ -14,6 +14,6 @@ data class CountryDTO(
     fun toCountry() = Country(
         name = name,
         code = code,
-        image = image
+        imageURL = image
     )
 }
