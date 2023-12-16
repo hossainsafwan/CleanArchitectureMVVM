@@ -9,9 +9,6 @@ class CountryViewModelFactory(private val useCase: GetCountryUseCase) :
     ViewModelProvider.Factory {
 
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(CountryViewModel::class.java)) return CountryViewModel(
-            useCase
-        ) as T
-        throw IllegalArgumentException("Unknown ViewModel class")
+        return modelClass.getConstructor(GetCountryUseCase::class.java).newInstance(useCase)
     }
 }

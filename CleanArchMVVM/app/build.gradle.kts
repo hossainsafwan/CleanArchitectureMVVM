@@ -60,5 +60,8 @@ dependencies {
     // Coil with SVG image files
     implementation("io.coil-kt:coil-svg:2.5.0")
 
+    //Swipe to refresh
+    implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
+
 
 }

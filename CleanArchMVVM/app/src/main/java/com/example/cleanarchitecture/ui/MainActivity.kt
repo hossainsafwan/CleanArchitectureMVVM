@@ -36,12 +36,17 @@ class MainActivity : AppCompatActivity() {
                 submitList(it.countryList)
             }
             binding.progressBar.isVisible = it.isLoading
-            it.errorMessage?.let {
-                Toast.makeText(this, getString(it), Toast.LENGTH_SHORT).show()
+            it.errorMessage?.let { errorMessage ->
+                Toast.makeText(this, getString(errorMessage), Toast.LENGTH_SHORT).show()
             }
         })
 
         if (viewModel.countryModel?.value == null) {
+            viewModel.getCountries()
+        }
+
+        binding.swipeToRefresh.setOnRefreshListener {
+            binding.swipeToRefresh.isRefreshing = false
             viewModel.getCountries()
         }
 
