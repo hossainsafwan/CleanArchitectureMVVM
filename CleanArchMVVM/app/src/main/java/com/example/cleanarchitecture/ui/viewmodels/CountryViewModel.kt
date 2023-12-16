@@ -1,4 +1,4 @@
-package com.example.cleanarchitecture.ui.viewmodels.factories
+package com.example.cleanarchitecture.ui.viewmodels
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
