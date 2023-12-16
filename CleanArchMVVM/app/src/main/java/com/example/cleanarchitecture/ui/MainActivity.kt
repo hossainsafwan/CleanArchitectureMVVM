@@ -10,6 +10,7 @@ import com.example.cleanarchitecture.databinding.ActivityMainBinding
 import com.example.cleanarchitecture.domain.GetCountryUseCaseImpl
 import com.example.cleanarchitecture.ui.viewmodels.factories.CountryViewModel
 import com.example.cleanarchitecture.ui.viewmodels.factories.CountryViewModelFactory
+import com.example.cleanarchitecture.ui.views.CountryListAdapter
 
 class MainActivity : AppCompatActivity() {
 
@@ -21,7 +22,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         _binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
         val viewModelFactory = CountryViewModelFactory(
             GetCountryUseCaseImpl(
                 AllCountriesRepositoryImpl(RetrofitInstance.countryAPI)
@@ -30,6 +30,9 @@ class MainActivity : AppCompatActivity() {
         val viewModel = ViewModelProvider(this, viewModelFactory)[CountryViewModel::class.java]
 
         viewModel.countryList?.observe(this, Observer {
+            binding.countryList.adapter = CountryListAdapter().apply {
+                submitList(it)
+            }
         })
 
         if (viewModel.countryList?.value == null) {

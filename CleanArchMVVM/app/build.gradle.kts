@@ -54,4 +54,11 @@ dependencies {
 
     //Android X Lifecycle
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2")
+
+    //Coil
+    implementation("io.coil-kt:coil:2.5.0")
+    // Coil with SVG image files
+    implementation("io.coil-kt:coil-svg:2.5.0")
+
+
 }
