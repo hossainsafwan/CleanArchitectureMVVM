@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">CleanArchitecture</string>
+    <string name="network_error">Network error occurred. Please check if you are connected to the internet and try again</string>
+    <string name="server_error">Issue with server occurred. Please try again</string>
+    <string name="general_error">There is an error that occurred. Please try again!</string>
 </resources>
