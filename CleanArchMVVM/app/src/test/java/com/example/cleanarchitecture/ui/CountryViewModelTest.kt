@@ -86,5 +86,4 @@ class CountryViewModelTest {
 
         assertEquals(underTest.countryModel?.value, Result(errorMessage = R.string.general_error))
     }
-
 }

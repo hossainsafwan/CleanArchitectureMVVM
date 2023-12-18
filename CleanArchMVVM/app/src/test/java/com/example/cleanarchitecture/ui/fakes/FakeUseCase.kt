@@ -1,6 +1,5 @@
 package com.example.cleanarchitecture.ui.fakes
 
-import com.example.cleanarchitecture.R
 import com.example.cleanarchitecture.data.models.Country
 import com.example.cleanarchitecture.domain.usecases.GetCountryUseCase
 import com.example.cleanarchitecture.util.Resource
