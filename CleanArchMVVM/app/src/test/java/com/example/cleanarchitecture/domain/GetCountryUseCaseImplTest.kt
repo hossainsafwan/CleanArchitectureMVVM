@@ -25,69 +25,69 @@ class GetCountryUseCaseImplTest {
     @Test
     fun `When success return from repository use case emits proper data`() {
         fakeRepository.setOutput(Resource.Success(listOf(Country("name", "code", "image-url"))))
-        lateinit var mutableList: Resource<List<Country>>
+        lateinit var mutableOutput: Resource<List<Country>>
         runTest {
             underTest.invoke().collectLatest {
-                mutableList = it
+                mutableOutput = it
             }
 
-            assertEquals(mutableList::class.java, Resource.Success::class.java)
-            assertEquals(mutableList?.data?.get(0)?.name, "name")
+            assertEquals(mutableOutput::class.java, Resource.Success::class.java)
+            assertEquals(mutableOutput?.data?.get(0)?.name, "name")
         }
     }
 
     @Test
     fun `When server error return from repository use case emits proper data`() {
         fakeRepository.setOutput(Resource.Error(message = R.string.server_error))
-        lateinit var mutableList: Resource<List<Country>>
+        lateinit var mutableOutput: Resource<List<Country>>
         runTest {
             underTest.invoke().collectLatest {
-                mutableList = it
+                mutableOutput = it
             }
 
-            assertEquals(mutableList::class.java, Resource.Error::class.java)
-            assertEquals(mutableList?.message, R.string.server_error)
+            assertEquals(mutableOutput::class.java, Resource.Error::class.java)
+            assertEquals(mutableOutput?.message, R.string.server_error)
         }
     }
 
     @Test
     fun `When network error return from repository use case emits proper data`() {
         fakeRepository.setOutput(Resource.Error(message = R.string.network_error))
-        lateinit var mutableList: Resource<List<Country>>
+        lateinit var mutableOutput: Resource<List<Country>>
         runTest {
             underTest.invoke().collectLatest {
-                mutableList = it
+                mutableOutput = it
             }
 
-            assertEquals(mutableList::class.java, Resource.Error::class.java)
-            assertEquals(mutableList?.message, R.string.network_error)
+            assertEquals(mutableOutput::class.java, Resource.Error::class.java)
+            assertEquals(mutableOutput?.message, R.string.network_error)
         }
     }
 
     @Test
     fun `When general error return from repository use case emits proper data`() {
         fakeRepository.setOutput(Resource.Error(message = R.string.general_error))
-        lateinit var mutableList: Resource<List<Country>>
+        lateinit var mutableOutput: Resource<List<Country>>
         runTest {
             underTest.invoke().collectLatest {
-                mutableList = it
+                mutableOutput = it
             }
 
-            assertEquals(mutableList::class.java, Resource.Error::class.java)
-            assertEquals(mutableList?.message, R.string.general_error)
+            assertEquals(mutableOutput::class.java, Resource.Error::class.java)
+            assertEquals(mutableOutput?.message, R.string.general_error)
         }
     }
 
     @Test
     fun `When loading return from repository use case emits proper data`() {
         fakeRepository.setOutput(Resource.Loading())
-        lateinit var mutableList: Resource<List<Country>>
+        lateinit var mutableOutput: Resource<List<Country>>
         runTest {
             underTest.invoke().collectLatest {
-                mutableList = it
+                mutableOutput = it
             }
 
-            assertEquals(mutableList::class.java, Resource.Loading::class.java)
+            assertEquals(mutableOutput::class.java, Resource.Loading::class.java)
         }
     }
 }
