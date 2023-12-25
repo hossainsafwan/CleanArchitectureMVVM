@@ -24,7 +24,7 @@ class GetCountryUseCaseImpl(
 
                 is Resource.Success -> {
                     val mapper = resource.data?.map {
-                        it.toCountry()
+                        Country(it.name,it.code,it.image)
                     }
                     output = flowOf(Resource.Success(data = mapper))
                 }
