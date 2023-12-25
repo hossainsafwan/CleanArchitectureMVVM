@@ -2,8 +2,8 @@ package com.example.cleanarchitecture.ui
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.example.cleanarchitecture.R
-import com.example.cleanarchitecture.data.models.Country
-import com.example.cleanarchitecture.domain.models.Result
+import com.example.cleanarchitecture.domain.models.Country
+import com.example.cleanarchitecture.ui.models.Result
 import com.example.cleanarchitecture.ui.fakes.FakeUseCase
 import com.example.cleanarchitecture.ui.viewmodels.CountryViewModel
 import com.example.cleanarchitecture.util.Resource

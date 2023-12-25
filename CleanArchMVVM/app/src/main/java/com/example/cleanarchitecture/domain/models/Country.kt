@@ -1,4 +1,4 @@
-package com.example.cleanarchitecture.data.models
+package com.example.cleanarchitecture.domain.models
 
 data class Country(
     val name: String,

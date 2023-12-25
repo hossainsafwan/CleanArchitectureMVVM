@@ -1,6 +1,6 @@
 package com.example.cleanarchitecture.ui.fakes
 
-import com.example.cleanarchitecture.data.models.Country
+import com.example.cleanarchitecture.domain.models.Country
 import com.example.cleanarchitecture.domain.usecases.GetCountryUseCase
 import com.example.cleanarchitecture.util.Resource
 import kotlinx.coroutines.flow.Flow

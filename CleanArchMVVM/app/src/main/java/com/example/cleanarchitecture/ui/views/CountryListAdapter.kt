@@ -10,7 +10,7 @@ import coil.load
 import coil.request.CachePolicy
 import coil.util.DebugLogger
 import com.example.cleanarchitecture.R
-import com.example.cleanarchitecture.data.models.Country
+import com.example.cleanarchitecture.domain.models.Country
 import com.example.cleanarchitecture.databinding.CountryItemBinding
 
 class CountryListAdapter :

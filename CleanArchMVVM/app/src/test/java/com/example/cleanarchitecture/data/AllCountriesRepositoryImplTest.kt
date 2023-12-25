@@ -2,7 +2,7 @@ package com.example.cleanarchitecture.data
 
 import com.example.cleanarchitecture.data.fakes.ErrorType
 import com.example.cleanarchitecture.data.fakes.FakeCountryApi
-import com.example.cleanarchitecture.data.models.Country
+import com.example.cleanarchitecture.domain.models.Country
 import com.example.cleanarchitecture.data.models.CountryDTO
 import com.example.cleanarchitecture.data.repositories.AllCountriesRepositoryImpl
 import com.example.cleanarchitecture.R
@@ -19,7 +19,7 @@ class AllCountriesRepositoryImplTest {
     private var fakeCountryApi = FakeCountryApi()
     private lateinit var underTest: AllCountriesRepository
     private val apiOutput = listOf(CountryDTO("Bangladesh", "BD", "imageUrl"))
-    private val repositoryOutput = listOf(Country("Bangladesh", "BD", "imageUrl"))
+    private val repositoryOutput = listOf(CountryDTO("Bangladesh", "BD", "imageUrl"))
 
     @Before
     fun setUp() {
@@ -28,7 +28,7 @@ class AllCountriesRepositoryImplTest {
 
     @Test
     fun `When getAllCountries successfully called return loading then success`() {
-        val mutableList = mutableListOf<Resource<List<Country>>>()
+        val mutableList = mutableListOf<Resource<List<CountryDTO>>>()
         fakeCountryApi.setOutput(apiOutput)
 
         runTest {
@@ -44,7 +44,7 @@ class AllCountriesRepositoryImplTest {
 
     @Test
     fun `When getAllCountries causes IO error return loading then proper error`() {
-        val mutableList = mutableListOf<Resource<List<Country>>>()
+        val mutableList = mutableListOf<Resource<List<CountryDTO>>>()
         fakeCountryApi.setOutput(emptyList(), ErrorType.IO_EXCEPTION)
 
         runTest {
@@ -60,7 +60,7 @@ class AllCountriesRepositoryImplTest {
 
     @Test
     fun `When getAllCountries causes server error return loading then error`() {
-        val mutableList = mutableListOf<Resource<List<Country>>>()
+        val mutableList = mutableListOf<Resource<List<CountryDTO>>>()
         fakeCountryApi.setOutput(emptyList(), ErrorType.HTTP_ERROR)
 
         runTest {
@@ -75,7 +75,7 @@ class AllCountriesRepositoryImplTest {
 
     @Test
     fun `When getAllCountries causes general error return loading then proper error`() {
-        val mutableList = mutableListOf<Resource<List<Country>>>()
+        val mutableList = mutableListOf<Resource<List<CountryDTO>>>()
         fakeCountryApi.setOutput(emptyList(), ErrorType.GENERAL_EXCEPTION)
 
         runTest {

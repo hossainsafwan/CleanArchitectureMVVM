@@ -1,5 +1,6 @@
 package com.example.cleanarchitecture.data.models
 
+import com.example.cleanarchitecture.domain.models.Country
 import com.google.gson.annotations.SerializedName
 
 data class CountryDTO(

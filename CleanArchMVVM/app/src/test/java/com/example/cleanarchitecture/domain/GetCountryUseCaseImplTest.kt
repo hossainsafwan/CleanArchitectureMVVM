@@ -1,10 +1,11 @@
 package com.example.cleanarchitecture.domain
 
-import com.example.cleanarchitecture.data.models.Country
+import com.example.cleanarchitecture.domain.models.Country
 import com.example.cleanarchitecture.domain.fakes.FakeAllCountriesRepository
 import com.example.cleanarchitecture.domain.usecases.GetCountryUseCase
 import com.example.cleanarchitecture.domain.usecases.GetCountryUseCaseImpl
 import com.example.cleanarchitecture.R
+import com.example.cleanarchitecture.data.models.CountryDTO
 import com.example.cleanarchitecture.util.Resource
 import junit.framework.TestCase.assertEquals
 import kotlinx.coroutines.flow.collectLatest
@@ -24,7 +25,7 @@ class GetCountryUseCaseImplTest {
 
     @Test
     fun `When success return from repository use case emits proper data`() {
-        fakeRepository.setOutput(Resource.Success(listOf(Country("name", "code", "image-url"))))
+        fakeRepository.setOutput(Resource.Success(listOf(CountryDTO("name", "code", "image-url"))))
         lateinit var mutableOutput: Resource<List<Country>>
         runTest {
             underTest.invoke().collectLatest {
