@@ -2,6 +2,7 @@ package com.example.cleanarchitecture.ui.views
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import coil.ImageLoader
@@ -32,9 +33,7 @@ class CountryListAdapter :
 
             binding.flagIcon.load(country.imageURL, imageLoader) {
                 error(
-                    binding.flagIcon.context.resources.getDrawable(
-                        R.drawable.ic_flag, null
-                    )
+                    AppCompatResources.getDrawable(binding.flagIcon.context,R.drawable.ic_flag)
                 )
             }
         }
