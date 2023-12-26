@@ -22,7 +22,7 @@ class GetCountryUseCaseImpl(
 
                 is Resource.Success -> {
                     val mapper = resource.data?.map {
-                        Country(it.name, it.code, it.image)
+                        Country(it.countryName, it.countryCode, it.imageUrl)
                     }
                     emit(Resource.Success(data = mapper))
                 }

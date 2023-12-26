@@ -4,9 +4,9 @@ import com.google.gson.annotations.SerializedName
 
 data class CountryDTO(
     @SerializedName("name")
-    val name: String,
+    val countryName: String,
     @SerializedName("code")
-    val code: String,
+    val countryCode: String,
     @SerializedName("image")
-    val image: String,
+    val imageUrl: String,
 )

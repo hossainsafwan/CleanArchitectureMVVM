@@ -33,7 +33,7 @@ class GetCountryUseCaseImplTest {
             }
 
             assertEquals(mutableOutput::class.java, Resource.Success::class.java)
-            assertEquals(mutableOutput?.data?.get(0)?.name, "name")
+            assertEquals(mutableOutput.data?.get(0)?.countryName, "name")
         }
     }
 
@@ -47,7 +47,7 @@ class GetCountryUseCaseImplTest {
             }
 
             assertEquals(mutableOutput::class.java, Resource.Error::class.java)
-            assertEquals(mutableOutput?.message, R.string.server_error)
+            assertEquals(mutableOutput.message, R.string.server_error)
         }
     }
 
@@ -61,7 +61,7 @@ class GetCountryUseCaseImplTest {
             }
 
             assertEquals(mutableOutput::class.java, Resource.Error::class.java)
-            assertEquals(mutableOutput?.message, R.string.network_error)
+            assertEquals(mutableOutput.message, R.string.network_error)
         }
     }
 
@@ -75,7 +75,7 @@ class GetCountryUseCaseImplTest {
             }
 
             assertEquals(mutableOutput::class.java, Resource.Error::class.java)
-            assertEquals(mutableOutput?.message, R.string.general_error)
+            assertEquals(mutableOutput.message, R.string.general_error)
         }
     }
 

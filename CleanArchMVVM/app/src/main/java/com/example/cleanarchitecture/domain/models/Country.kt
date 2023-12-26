@@ -1,7 +1,7 @@
 package com.example.cleanarchitecture.domain.models
 
 data class Country(
-    val name: String,
-    val code: String,
+    val countryName: String,
+    val countryCode: String,
     val imageURL: String
 )

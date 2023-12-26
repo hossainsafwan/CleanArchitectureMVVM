@@ -19,8 +19,8 @@ class CountryListAdapter :
     inner class CountryViewHolder(private val binding: CountryItemBinding) :
         ViewHolder(binding.root) {
         fun bind(country: Country) {
-            binding.countryName.text = country.name
-            binding.code.text = country.code
+            binding.countryName.text = country.countryName
+            binding.code.text = country.countryCode
             val imageLoader = ImageLoader.Builder(binding.flagIcon.context)
                 .components {
                     add(SvgDecoder.Factory())

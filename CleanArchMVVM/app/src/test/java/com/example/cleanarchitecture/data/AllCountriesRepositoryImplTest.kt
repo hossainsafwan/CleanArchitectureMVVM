@@ -2,7 +2,6 @@ package com.example.cleanarchitecture.data
 
 import com.example.cleanarchitecture.data.fakes.ErrorType
 import com.example.cleanarchitecture.data.fakes.FakeCountryApi
-import com.example.cleanarchitecture.domain.models.Country
 import com.example.cleanarchitecture.data.models.CountryDTO
 import com.example.cleanarchitecture.data.repositories.AllCountriesRepositoryImpl
 import com.example.cleanarchitecture.R
