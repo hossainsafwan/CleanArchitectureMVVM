@@ -2,8 +2,8 @@ package com.example.cleanarchitecture.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Toast
 import androidx.core.view.isVisible
+import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.cleanarchitecture.data.network.RetrofitInstance
@@ -13,6 +13,7 @@ import com.example.cleanarchitecture.domain.usecases.GetCountryUseCaseImpl
 import com.example.cleanarchitecture.ui.viewmodels.CountryViewModel
 import com.example.cleanarchitecture.ui.viewmodels.factories.CountryViewModelFactory
 import com.example.cleanarchitecture.ui.views.CountryListAdapter
+import com.google.android.material.snackbar.Snackbar
 
 class MainActivity : AppCompatActivity() {
 
@@ -30,19 +31,33 @@ class MainActivity : AppCompatActivity() {
             )
         )
         val viewModel = ViewModelProvider(this, viewModelFactory)[CountryViewModel::class.java]
-
+        val adapter = CountryListAdapter()
+        binding.countryList.adapter = adapter
         viewModel.countryModel?.observe(this, Observer {
-            binding.countryList.adapter = CountryListAdapter().apply {
-                submitList(it.countryList)
-            }
+            adapter.submitList(it.countryList)
             binding.progressBar.isVisible = it.isLoading
             it.errorMessage?.let { errorMessage ->
-                Toast.makeText(this, getString(errorMessage), Toast.LENGTH_SHORT).show()
+                Snackbar.make(
+                    binding.swipeToRefresh,
+                    getString(errorMessage),
+                    Snackbar.LENGTH_SHORT
+                ).show()
             }
         })
 
         if (viewModel.countryModel?.value == null) {
             viewModel.getCountries()
+        }
+
+        binding.searchBar.addTextChangedListener { editable ->
+            val searchList = if (editable.toString().isEmpty()) {
+                viewModel.countryModel?.value?.countryList ?: emptyList()
+            } else {
+                viewModel.countryModel?.value?.countryList?.filter {
+                    editable.toString().equals(it.countryName, true)
+                }
+            }
+            adapter.submitList(searchList)
         }
 
         binding.swipeToRefresh.setOnRefreshListener {
