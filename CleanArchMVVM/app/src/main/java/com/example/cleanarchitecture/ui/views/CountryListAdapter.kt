@@ -11,15 +11,15 @@ import coil.load
 import coil.request.CachePolicy
 import coil.util.DebugLogger
 import com.example.cleanarchitecture.R
-import com.example.cleanarchitecture.domain.models.Country
 import com.example.cleanarchitecture.databinding.CountryItemBinding
+import com.example.cleanarchitecture.ui.models.CountryUIModel
 
 class CountryListAdapter :
-    ListAdapter<Country, CountryListAdapter.CountryViewHolder>(CountryDiffUtil()) {
+    ListAdapter<CountryUIModel, CountryListAdapter.CountryViewHolder>(CountryDiffUtil()) {
 
     inner class CountryViewHolder(private val binding: CountryItemBinding) :
         ViewHolder(binding.root) {
-        fun bind(country: Country) {
+        fun bind(country: CountryUIModel) {
             binding.countryName.text = country.countryName
             binding.code.text = country.countryCode
             val imageLoader = ImageLoader.Builder(binding.flagIcon.context)

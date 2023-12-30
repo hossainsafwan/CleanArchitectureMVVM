@@ -1,6 +1,6 @@
 package com.example.cleanarchitecture.domain
 
-import com.example.cleanarchitecture.domain.models.Country
+import com.example.cleanarchitecture.domain.models.CountryDomainModel
 import com.example.cleanarchitecture.domain.fakes.FakeAllCountriesRepository
 import com.example.cleanarchitecture.domain.usecases.GetCountryUseCase
 import com.example.cleanarchitecture.domain.usecases.GetCountryUseCaseImpl
@@ -13,7 +13,7 @@ import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test
 
-class GetCountryUseCaseImplTest {
+class GetCountryUseCaseImplTestDomainModel {
 
     private val fakeRepository = FakeAllCountriesRepository()
     private lateinit var underTest: GetCountryUseCase
@@ -26,7 +26,7 @@ class GetCountryUseCaseImplTest {
     @Test
     fun `When success return from repository use case emits proper data`() {
         fakeRepository.setOutput(Resource.Success(listOf(CountryDTO("name", "code", "image-url"))))
-        lateinit var mutableOutput: Resource<List<Country>>
+        lateinit var mutableOutput: Resource<List<CountryDomainModel>>
         runTest {
             underTest.invoke().collectLatest {
                 mutableOutput = it
@@ -40,7 +40,7 @@ class GetCountryUseCaseImplTest {
     @Test
     fun `When server error return from repository use case emits proper data`() {
         fakeRepository.setOutput(Resource.Error(message = R.string.server_error))
-        lateinit var mutableOutput: Resource<List<Country>>
+        lateinit var mutableOutput: Resource<List<CountryDomainModel>>
         runTest {
             underTest.invoke().collectLatest {
                 mutableOutput = it
@@ -54,7 +54,7 @@ class GetCountryUseCaseImplTest {
     @Test
     fun `When network error return from repository use case emits proper data`() {
         fakeRepository.setOutput(Resource.Error(message = R.string.network_error))
-        lateinit var mutableOutput: Resource<List<Country>>
+        lateinit var mutableOutput: Resource<List<CountryDomainModel>>
         runTest {
             underTest.invoke().collectLatest {
                 mutableOutput = it
@@ -68,7 +68,7 @@ class GetCountryUseCaseImplTest {
     @Test
     fun `When general error return from repository use case emits proper data`() {
         fakeRepository.setOutput(Resource.Error(message = R.string.general_error))
-        lateinit var mutableOutput: Resource<List<Country>>
+        lateinit var mutableOutput: Resource<List<CountryDomainModel>>
         runTest {
             underTest.invoke().collectLatest {
                 mutableOutput = it
@@ -82,7 +82,7 @@ class GetCountryUseCaseImplTest {
     @Test
     fun `When loading return from repository use case emits proper data`() {
         fakeRepository.setOutput(Resource.Loading())
-        lateinit var mutableOutput: Resource<List<Country>>
+        lateinit var mutableOutput: Resource<List<CountryDomainModel>>
         runTest {
             underTest.invoke().collectLatest {
                 mutableOutput = it

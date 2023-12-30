@@ -1,7 +1,6 @@
 package com.example.cleanarchitecture.domain.fakes
 
 import com.example.cleanarchitecture.data.models.CountryDTO
-import com.example.cleanarchitecture.domain.models.Country
 import com.example.cleanarchitecture.data.repositories.AllCountriesRepository
 import com.example.cleanarchitecture.util.Resource
 import kotlinx.coroutines.flow.Flow
