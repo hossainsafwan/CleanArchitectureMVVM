@@ -34,7 +34,7 @@ class MainActivity : AppCompatActivity() {
         val adapter = CountryListAdapter()
         binding.countryList.adapter = adapter
         viewModel.countryModel?.observe(this, Observer {
-            adapter.submitList(it.countryList)
+            showSearchedList(adapter,viewModel)
             binding.progressBar.isVisible = it.isLoading
             it.errorMessage?.let { errorMessage ->
                 Snackbar.make(
@@ -50,21 +50,27 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.searchBar.addTextChangedListener { editable ->
-            val searchList = if (editable.toString().isEmpty()) {
-                viewModel.countryModel?.value?.countryList ?: emptyList()
-            } else {
-                viewModel.countryModel?.value?.countryList?.filter {
-                    it.countryName.lowercase().contains(editable.toString().lowercase())
-                }
-            }
-            adapter.submitList(searchList)
+            viewModel.searchQuery(editable.toString())
+            showSearchedList(adapter,viewModel)
         }
 
         binding.swipeToRefresh.setOnRefreshListener {
             binding.swipeToRefresh.isRefreshing = false
             viewModel.getCountries()
+            showSearchedList(adapter,viewModel)
         }
 
+    }
+
+    private fun showSearchedList(adapter: CountryListAdapter, viewModel: CountryViewModel) {
+        val searchList = if (viewModel.searchQuery.isEmpty()) {
+            viewModel.countryModel?.value?.countryList ?: emptyList()
+        } else {
+            viewModel.countryModel?.value?.countryList?.filter {
+                it.countryName.contains(viewModel.searchQuery,true)
+            }
+        }
+        adapter.submitList(searchList)
     }
 
     override fun onDestroy() {

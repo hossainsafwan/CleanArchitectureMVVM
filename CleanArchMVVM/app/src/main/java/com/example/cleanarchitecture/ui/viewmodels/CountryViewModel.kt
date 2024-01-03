@@ -16,6 +16,8 @@ class CountryViewModel(private val useCase: GetCountryUseCase) : ViewModel() {
     private val _countryModel = MutableLiveData<CountryListUIModel>()
     val countryModel: LiveData<CountryListUIModel>?
         get() = _countryModel
+    private var _searchQuery: String = ""
+    val searchQuery get() = _searchQuery
 
     fun getCountries() {
         viewModelScope.launch {
@@ -45,5 +47,9 @@ class CountryViewModel(private val useCase: GetCountryUseCase) : ViewModel() {
                 }
             }
         }
+    }
+
+    fun searchQuery(query: String) {
+        _searchQuery = query
     }
 }

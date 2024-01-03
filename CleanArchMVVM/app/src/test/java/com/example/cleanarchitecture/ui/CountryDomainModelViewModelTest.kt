@@ -104,4 +104,11 @@ class CountryDomainModelViewModelTest {
             CountryListUIModel(errorMessage = R.string.general_error)
         )
     }
+
+    @Test
+    fun `Get proper search value when a value is set for search query`() {
+        underTest.searchQuery("Canada")
+
+        assertEquals(underTest.searchQuery,"Canada")
+    }
 }
