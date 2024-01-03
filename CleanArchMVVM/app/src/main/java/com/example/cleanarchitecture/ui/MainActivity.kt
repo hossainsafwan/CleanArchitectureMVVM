@@ -54,7 +54,7 @@ class MainActivity : AppCompatActivity() {
                 viewModel.countryModel?.value?.countryList ?: emptyList()
             } else {
                 viewModel.countryModel?.value?.countryList?.filter {
-                    editable.toString().equals(it.countryName, true)
+                    it.countryName.lowercase().contains(editable.toString().lowercase())
                 }
             }
             adapter.submitList(searchList)
