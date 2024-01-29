@@ -64,7 +64,7 @@ class CountryDomainModelViewModelTest {
 
         assertEquals(
             underTest.countryListState.value::class.java,
-            CountryListUIState.Loading()::class.java
+            CountryListUIState.Loading::class.java
         )
     }
 

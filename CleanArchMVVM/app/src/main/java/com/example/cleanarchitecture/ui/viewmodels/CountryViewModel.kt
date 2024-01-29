@@ -13,7 +13,7 @@ import kotlinx.coroutines.launch
 
 class CountryViewModel(private val useCase: GetCountryUseCase) : ViewModel() {
 
-    private val _countryModel = MutableStateFlow<CountryListUIState>(CountryListUIState.Initial())
+    private val _countryModel = MutableStateFlow<CountryListUIState>(CountryListUIState.Initial)
     val countryListState: StateFlow<CountryListUIState>
         get() = _countryModel
     private var _searchQuery: String = ""
@@ -24,7 +24,7 @@ class CountryViewModel(private val useCase: GetCountryUseCase) : ViewModel() {
             useCase().collectLatest { resource ->
                 when (resource) {
                     is Resource.Loading -> {
-                        _countryModel.value = CountryListUIState.Loading()
+                        _countryModel.value = CountryListUIState.Loading
                     }
 
                     is Resource.Success -> {
