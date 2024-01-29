@@ -44,8 +44,8 @@ class MainActivity : AppCompatActivity() {
 
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.countryListState.collectLatest { countryListUIModel ->
-                    when (countryListUIModel) {
+                viewModel.countryListState.collectLatest { countryListUIState ->
+                    when (countryListUIState) {
                         is CountryListUIState.Loading -> {
                             binding.progressBar.isVisible = true
                         }
