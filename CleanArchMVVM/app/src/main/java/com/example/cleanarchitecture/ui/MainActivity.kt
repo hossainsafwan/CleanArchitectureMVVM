@@ -5,15 +5,20 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
-import androidx.lifecycle.Observer
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.example.cleanarchitecture.data.network.RetrofitInstance
 import com.example.cleanarchitecture.data.repositories.AllCountriesRepositoryImpl
 import com.example.cleanarchitecture.databinding.ActivityMainBinding
 import com.example.cleanarchitecture.domain.usecases.GetCountryUseCaseImpl
+import com.example.cleanarchitecture.ui.models.CountryListUIState
 import com.example.cleanarchitecture.ui.viewmodels.CountryViewModel
 import com.example.cleanarchitecture.ui.viewmodels.factories.CountryViewModelFactory
 import com.example.cleanarchitecture.ui.views.CountryListAdapter
 import com.google.android.material.snackbar.Snackbar
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
 
@@ -21,11 +26,13 @@ class MainActivity : AppCompatActivity() {
     private val binding: ActivityMainBinding
         get() = _binding!!
 
-    private val viewModel: CountryViewModel by viewModels {  CountryViewModelFactory(
-        GetCountryUseCaseImpl(
-            AllCountriesRepositoryImpl(RetrofitInstance.countryAPI)
+    private val viewModel: CountryViewModel by viewModels {
+        CountryViewModelFactory(
+            GetCountryUseCaseImpl(
+                AllCountriesRepositoryImpl(RetrofitInstance.countryAPI)
+            )
         )
-    ) }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,20 +41,33 @@ class MainActivity : AppCompatActivity() {
 
         val adapter = CountryListAdapter()
         binding.countryList.adapter = adapter
-        viewModel.countryModel?.observe(this, Observer {
-            showSearchedList(adapter)
-            binding.progressBar.isVisible = it.isLoading
-            it.errorMessage?.let { errorMessage ->
-                Snackbar.make(
-                    binding.swipeToRefresh,
-                    getString(errorMessage),
-                    Snackbar.LENGTH_SHORT
-                ).show()
-            }
-        })
 
-        if (viewModel.countryModel?.value == null) {
-            viewModel.getCountries()
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.countryListState.collectLatest { countryListUIModel ->
+                    when (countryListUIModel) {
+                        is CountryListUIState.Loading -> {
+                            binding.progressBar.isVisible = true
+                        }
+
+                        is CountryListUIState.Success -> {
+                            binding.progressBar.isVisible = false
+                            showSearchedList(adapter)
+                        }
+
+                        is CountryListUIState.Failure -> {
+                            binding.progressBar.isVisible = false
+                            Snackbar.make(
+                                binding.swipeToRefresh,
+                                getString((viewModel.countryListState.value as CountryListUIState.Failure).message),
+                                Snackbar.LENGTH_SHORT
+                            ).show()
+                        }
+
+                        is CountryListUIState.Initial -> viewModel.getCountries()
+                    }
+                }
+            }
         }
 
         binding.searchBar.addTextChangedListener { editable ->
@@ -64,13 +84,19 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun showSearchedList(adapter: CountryListAdapter) {
-        val searchList = if (viewModel.searchQuery.isEmpty()) {
-            viewModel.countryModel?.value?.countryList ?: emptyList()
-        } else {
-            viewModel.countryModel?.value?.countryList?.filter {
-                it.countryName.contains(viewModel.searchQuery,true)
+        val searchList =
+            if (viewModel.countryListState.value is CountryListUIState.Loading ||
+                viewModel.countryListState.value is CountryListUIState.Failure ||
+                viewModel.countryListState.value is CountryListUIState.Initial
+            ) {
+                emptyList()
+            } else if (viewModel.searchQuery.isEmpty()) {
+                ((viewModel.countryListState.value) as CountryListUIState.Success).data
+            } else {
+                ((viewModel.countryListState.value) as CountryListUIState.Success).data.filter {
+                    it.countryName.contains(viewModel.searchQuery, true)
+                }
             }
-        }
         adapter.submitList(searchList)
     }
 
