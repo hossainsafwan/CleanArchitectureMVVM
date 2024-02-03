@@ -3,7 +3,7 @@ package com.example.cleanarchitecture.ui
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.example.cleanarchitecture.R
 import com.example.cleanarchitecture.domain.models.CountryDomainModel
-import com.example.cleanarchitecture.ui.models.CountryListUIModel
+import com.example.cleanarchitecture.ui.models.CountryListUIState
 import com.example.cleanarchitecture.ui.fakes.FakeUseCase
 import com.example.cleanarchitecture.ui.models.CountryUIModel
 import com.example.cleanarchitecture.ui.viewmodels.CountryViewModel
@@ -46,13 +46,12 @@ class CountryDomainModelViewModelTest {
         dispatcher.scheduler.advanceUntilIdle()
 
         assertEquals(
-            underTest.countryModel?.value, CountryListUIModel(
-                countryList = listOf(
-                    CountryUIModel("Bangladesh", "BD", "fake_url_bd"),
-                    CountryUIModel("Canada", "CA", "fake_url_ca"),
-                    CountryUIModel("United States", "US", "fake_url_us")
-                )
+            (underTest.countryListState.value as CountryListUIState.Success).data, listOf(
+                CountryUIModel("Bangladesh", "BD", "fake_url_bd"),
+                CountryUIModel("Canada", "CA", "fake_url_ca"),
+                CountryUIModel("United States", "US", "fake_url_us")
             )
+
         )
     }
 
@@ -63,7 +62,10 @@ class CountryDomainModelViewModelTest {
         underTest.getCountries()
         dispatcher.scheduler.advanceUntilIdle()
 
-        assertEquals(underTest.countryModel?.value, CountryListUIModel(isLoading = true))
+        assertEquals(
+            underTest.countryListState.value::class.java,
+            CountryListUIState.Loading::class.java
+        )
     }
 
     @Test
@@ -74,8 +76,8 @@ class CountryDomainModelViewModelTest {
         dispatcher.scheduler.advanceUntilIdle()
 
         assertEquals(
-            underTest.countryModel?.value,
-            CountryListUIModel(errorMessage = R.string.server_error)
+            (underTest.countryListState.value as CountryListUIState.Failure).message,
+            R.string.server_error
         )
     }
 
@@ -87,8 +89,8 @@ class CountryDomainModelViewModelTest {
         dispatcher.scheduler.advanceUntilIdle()
 
         assertEquals(
-            underTest.countryModel?.value,
-            CountryListUIModel(errorMessage = R.string.network_error)
+            (underTest.countryListState.value as CountryListUIState.Failure).message,
+            R.string.network_error
         )
     }
 
@@ -100,8 +102,8 @@ class CountryDomainModelViewModelTest {
         dispatcher.scheduler.advanceUntilIdle()
 
         assertEquals(
-            underTest.countryModel?.value,
-            CountryListUIModel(errorMessage = R.string.general_error)
+            (underTest.countryListState.value as CountryListUIState.Failure).message,
+            R.string.general_error
         )
     }
 
@@ -109,6 +111,6 @@ class CountryDomainModelViewModelTest {
     fun `Get proper search value when a value is set for search query`() {
         underTest.searchQuery("Canada")
 
-        assertEquals(underTest.searchQuery,"Canada")
+        assertEquals(underTest.searchQuery, "Canada")
     }
 }

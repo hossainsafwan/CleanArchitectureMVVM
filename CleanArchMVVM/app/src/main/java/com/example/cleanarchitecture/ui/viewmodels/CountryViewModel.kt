@@ -1,20 +1,20 @@
 package com.example.cleanarchitecture.ui.viewmodels
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.cleanarchitecture.domain.usecases.GetCountryUseCase
-import com.example.cleanarchitecture.ui.models.CountryListUIModel
+import com.example.cleanarchitecture.ui.models.CountryListUIState
 import com.example.cleanarchitecture.ui.models.CountryUIModel
 import com.example.cleanarchitecture.util.Resource
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 class CountryViewModel(private val useCase: GetCountryUseCase) : ViewModel() {
 
-    private val _countryModel = MutableLiveData<CountryListUIModel>()
-    val countryModel: LiveData<CountryListUIModel>?
+    private val _countryModel = MutableStateFlow<CountryListUIState>(CountryListUIState.Initial)
+    val countryListState: StateFlow<CountryListUIState>
         get() = _countryModel
     private var _searchQuery: String = ""
     val searchQuery get() = _searchQuery
@@ -24,13 +24,13 @@ class CountryViewModel(private val useCase: GetCountryUseCase) : ViewModel() {
             useCase().collectLatest { resource ->
                 when (resource) {
                     is Resource.Loading -> {
-                        _countryModel.postValue(CountryListUIModel(isLoading = true))
+                        _countryModel.value = CountryListUIState.Loading
                     }
 
                     is Resource.Success -> {
                         resource.data?.let { list->
-                            _countryModel.postValue(CountryListUIModel(
-                                countryList = list.map { country->
+                            _countryModel.value = (CountryListUIState.Success(
+                                data = list.map { country->
                                     CountryUIModel(
                                         country.countryName,
                                         country.countryCode,
@@ -42,7 +42,7 @@ class CountryViewModel(private val useCase: GetCountryUseCase) : ViewModel() {
                     }
 
                     is Resource.Error -> {
-                        _countryModel.postValue(CountryListUIModel(errorMessage = resource.message))
+                        _countryModel.value = (CountryListUIState.Failure(message = resource.message!!))
                     }
                 }
             }
