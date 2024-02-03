@@ -34,7 +34,8 @@ The app also has image caching to minimize the use of network bandwidth using th
 
 The following are the test coverages of some of the important classes in the app.
 
-<img width="1727" alt="Screen Shot 2024-01-03 at 2 33 32 AM" src="https://github.com/hossainsafwan/CleanArchitectureMVVM/assets/22313316/9b0c2409-82f1-44d9-ad02-f1f7e4b13f10">
+<!-- <img width="1727" alt="Screen Shot 2024-01-03 at 2 33 32 AM" src="https://github.com/hossainsafwan/CleanArchitectureMVVM/assets/22313316/9b0c2409-82f1-44d9-ad02-f1f7e4b13f10"> !-->
+<img width="1727" alt="Screen Shot 2024-01-03 at 2 33 32 AM" src="https://github.com/hossainsafwan/CleanArchitectureMVVM/assets/22313316/0774fa58-bcca-4e5c-bc7f-bb0a991890c2">
 
 *Fig 5: 100% Test Coverage of View Model*
 
