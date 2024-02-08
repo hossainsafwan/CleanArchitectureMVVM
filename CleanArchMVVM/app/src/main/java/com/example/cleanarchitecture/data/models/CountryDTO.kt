@@ -1,12 +1,12 @@
 package com.example.cleanarchitecture.data.models
 
-import com.google.gson.annotations.SerializedName
+import com.squareup.moshi.Json
 
 data class CountryDTO(
-    @SerializedName("name")
+    @field:Json(name="name")
     val countryName: String,
-    @SerializedName("code")
+    @field:Json(name="code")
     val countryCode: String,
-    @SerializedName("image")
+    @field:Json(name="image")
     val imageUrl: String,
 )
