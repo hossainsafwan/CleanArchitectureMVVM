@@ -1,6 +1,8 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
+    id ("kotlin-android")
+    id("com.google.devtools.ksp")
 }
 
 android {
@@ -69,6 +71,10 @@ dependencies {
     // Fragment Navigation
     implementation("androidx.navigation:navigation-fragment-ktx:2.7.7")
     implementation("androidx.navigation:navigation-ui-ktx:2.7.7")
+
+    //Dagger
+    implementation ("com.google.dagger:dagger:2.50")
+    ksp("com.google.dagger:dagger-compiler:2.50")
 
     //Testing
     testImplementation("junit:junit:4.13.2")

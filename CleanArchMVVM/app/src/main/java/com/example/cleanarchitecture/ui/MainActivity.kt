@@ -8,10 +8,8 @@ import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import com.example.cleanarchitecture.data.network.RetrofitInstance
-import com.example.cleanarchitecture.data.repositories.AllCountriesRepositoryImpl
+import com.example.cleanarchitecture.CountryApplication
 import com.example.cleanarchitecture.databinding.ActivityMainBinding
-import com.example.cleanarchitecture.domain.usecases.GetCountryUseCaseImpl
 import com.example.cleanarchitecture.ui.models.CountryListUIState
 import com.example.cleanarchitecture.ui.viewmodels.CountryViewModel
 import com.example.cleanarchitecture.ui.viewmodels.factories.CountryViewModelFactory
@@ -19,6 +17,7 @@ import com.example.cleanarchitecture.ui.views.CountryListAdapter
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 class MainActivity : AppCompatActivity() {
 
@@ -26,16 +25,15 @@ class MainActivity : AppCompatActivity() {
     private val binding: ActivityMainBinding
         get() = _binding!!
 
+    @Inject lateinit var countryViewModelFactory: CountryViewModelFactory
     private val viewModel: CountryViewModel by viewModels {
-        CountryViewModelFactory(
-            GetCountryUseCaseImpl(
-                AllCountriesRepositoryImpl(RetrofitInstance.countryAPI)
-            )
-        )
+        countryViewModelFactory
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        (application as CountryApplication).applicationComponent.inject(this)
         super.onCreate(savedInstanceState)
+
         _binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 

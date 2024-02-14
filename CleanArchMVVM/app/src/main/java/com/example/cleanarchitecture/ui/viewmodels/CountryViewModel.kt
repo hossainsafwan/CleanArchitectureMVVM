@@ -10,6 +10,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 class CountryViewModel(private val useCase: GetCountryUseCase) : ViewModel() {
 
@@ -28,9 +29,9 @@ class CountryViewModel(private val useCase: GetCountryUseCase) : ViewModel() {
                     }
 
                     is Resource.Success -> {
-                        resource.data?.let { list->
+                        resource.data?.let { list ->
                             _countryModel.value = (CountryListUIState.Success(
-                                data = list.map { country->
+                                data = list.map { country ->
                                     CountryUIModel(
                                         country.countryName,
                                         country.countryCode,
@@ -42,7 +43,8 @@ class CountryViewModel(private val useCase: GetCountryUseCase) : ViewModel() {
                     }
 
                     is Resource.Error -> {
-                        _countryModel.value = (CountryListUIState.Failure(message = resource.message!!))
+                        _countryModel.value =
+                            (CountryListUIState.Failure(message = resource.message!!))
                     }
                 }
             }

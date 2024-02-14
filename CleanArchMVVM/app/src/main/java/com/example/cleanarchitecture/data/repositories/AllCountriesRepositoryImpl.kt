@@ -8,9 +8,11 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import retrofit2.HttpException
 import java.io.IOException
+import javax.inject.Inject
 
-class AllCountriesRepositoryImpl(private val countryAPI: CountryAPI) : AllCountriesRepository {
-    private lateinit var countryList : List<CountryDTO>
+class AllCountriesRepositoryImpl @Inject constructor(private val countryAPI: CountryAPI) :
+    AllCountriesRepository {
+    private lateinit var countryList: List<CountryDTO>
     override suspend fun getAllCountries(): Flow<Resource<List<CountryDTO>>> = flow {
         emit(Resource.Loading())
         try {
