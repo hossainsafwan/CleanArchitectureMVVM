@@ -5,8 +5,9 @@ import com.example.cleanarchitecture.data.repositories.AllCountriesRepository
 import com.example.cleanarchitecture.util.Resource
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.transform
+import javax.inject.Inject
 
-class GetCountryUseCaseImpl(
+class GetCountryUseCaseImpl @Inject constructor(
     private val countryRepository: AllCountriesRepository
 ) : GetCountryUseCase {
     override suspend fun invoke(): Flow<Resource<List<CountryDomainModel>>> =

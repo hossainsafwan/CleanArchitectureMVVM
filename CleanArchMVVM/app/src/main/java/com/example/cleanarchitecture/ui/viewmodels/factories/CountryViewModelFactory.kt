@@ -4,8 +4,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.cleanarchitecture.domain.usecases.GetCountryUseCase
 import com.example.cleanarchitecture.ui.viewmodels.CountryViewModel
+import javax.inject.Inject
 
-class CountryViewModelFactory(private val useCase: GetCountryUseCase) :
+class CountryViewModelFactory @Inject constructor(private val useCase: GetCountryUseCase) :
     ViewModelProvider.Factory {
 
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
