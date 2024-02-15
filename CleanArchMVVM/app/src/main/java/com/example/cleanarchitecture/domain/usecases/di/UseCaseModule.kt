@@ -1,4 +1,4 @@
-package com.example.cleanarchitecture.domain.di
+package com.example.cleanarchitecture.domain.usecases.di
 
 import com.example.cleanarchitecture.data.repositories.AllCountriesRepository
 import com.example.cleanarchitecture.domain.usecases.GetCountryUseCase

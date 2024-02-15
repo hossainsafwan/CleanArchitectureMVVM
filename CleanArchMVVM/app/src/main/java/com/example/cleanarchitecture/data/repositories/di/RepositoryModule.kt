@@ -1,4 +1,4 @@
-package com.example.cleanarchitecture.data.di
+package com.example.cleanarchitecture.data.repositories.di
 
 import com.example.cleanarchitecture.data.network.CountryAPI
 import com.example.cleanarchitecture.data.repositories.AllCountriesRepository
