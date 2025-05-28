@@ -50,7 +50,7 @@ class CountryViewModel(private val useCase: GetCountryUseCase) : ViewModel() {
         }
     }
 
-    fun fetchCountryListFromQuery(query: String = _searchQuery) : List<CountryUIModel> {
+    fun fetchCountryListFromQuery(query: String = searchQuery) : List<CountryUIModel> {
         _searchQuery = query
         return getCountryList()
     }
