@@ -10,7 +10,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 class CountryViewModel(private val useCase: GetCountryUseCase) : ViewModel() {
 
@@ -51,7 +50,21 @@ class CountryViewModel(private val useCase: GetCountryUseCase) : ViewModel() {
         }
     }
 
-    fun searchQuery(query: String) {
+    fun fetchCountryListFromQuery(query: String = _searchQuery) : List<CountryUIModel> {
         _searchQuery = query
+        return getCountryList()
+    }
+
+    private fun getCountryList() = if (countryListState.value is CountryListUIState.Loading ||
+        countryListState.value is CountryListUIState.Failure ||
+        countryListState.value is CountryListUIState.Initial
+    ) {
+        emptyList()
+    } else if (searchQuery.isEmpty()) {
+        ((countryListState.value) as CountryListUIState.Success).data
+    } else {
+        ((countryListState.value) as CountryListUIState.Success).data.filter {
+            it.countryName.contains(searchQuery, true)
+        }
     }
 }

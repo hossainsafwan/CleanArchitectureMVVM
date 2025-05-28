@@ -50,7 +50,7 @@ class MainActivity : AppCompatActivity() {
 
                         is CountryListUIState.Success -> {
                             binding.progressBar.isVisible = false
-                            showSearchedList(adapter)
+                            showCountryList(adapter)
                         }
 
                         is CountryListUIState.Failure -> {
@@ -69,32 +69,20 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.searchBar.addTextChangedListener { editable ->
-            viewModel.searchQuery(editable.toString())
-            showSearchedList(adapter)
+            viewModel.fetchCountryListFromQuery(editable.toString())
+            showCountryList(adapter)
         }
 
         binding.swipeToRefresh.setOnRefreshListener {
             binding.swipeToRefresh.isRefreshing = false
             viewModel.getCountries()
-            showSearchedList(adapter)
+            showCountryList(adapter)
         }
 
     }
 
-    private fun showSearchedList(adapter: CountryListAdapter) {
-        val searchList =
-            if (viewModel.countryListState.value is CountryListUIState.Loading ||
-                viewModel.countryListState.value is CountryListUIState.Failure ||
-                viewModel.countryListState.value is CountryListUIState.Initial
-            ) {
-                emptyList()
-            } else if (viewModel.searchQuery.isEmpty()) {
-                ((viewModel.countryListState.value) as CountryListUIState.Success).data
-            } else {
-                ((viewModel.countryListState.value) as CountryListUIState.Success).data.filter {
-                    it.countryName.contains(viewModel.searchQuery, true)
-                }
-            }
+    private fun showCountryList(adapter: CountryListAdapter) {
+        val searchList = viewModel.fetchCountryListFromQuery()
         adapter.submitList(searchList)
     }
 

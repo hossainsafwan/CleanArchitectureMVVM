@@ -109,7 +109,7 @@ class CountryDomainModelViewModelTest {
 
     @Test
     fun `Get proper search value when a value is set for search query`() {
-        underTest.searchQuery("Canada")
+        underTest.fetchCountryListFromQuery("Canada")
 
         assertEquals(underTest.searchQuery, "Canada")
     }
