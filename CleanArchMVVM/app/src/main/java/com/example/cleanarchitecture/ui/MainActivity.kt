@@ -76,7 +76,6 @@ class MainActivity : AppCompatActivity() {
         binding.swipeToRefresh.setOnRefreshListener {
             binding.swipeToRefresh.isRefreshing = false
             viewModel.getCountries()
-            showCountryList(adapter)
         }
 
     }
