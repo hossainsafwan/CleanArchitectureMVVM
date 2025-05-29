@@ -84,6 +84,9 @@ dependencies {
     // Material 3 for Jetpack Compose
     implementation("androidx.compose.material3:material3")
 
+    // Add full set of material icons
+    implementation("androidx.compose.material:material-icons-extended")
+
     // Android Studio Preview support for Jetpack Compose
     implementation("androidx.compose.ui:ui-tooling-preview")
     debugImplementation("androidx.compose.ui:ui-tooling")
