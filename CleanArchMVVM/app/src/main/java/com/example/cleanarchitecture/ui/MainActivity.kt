@@ -1,31 +1,20 @@
 package com.example.cleanarchitecture.ui
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
 import androidx.activity.viewModels
-import androidx.core.view.isVisible
-import androidx.core.widget.addTextChangedListener
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
+import androidx.compose.material3.MaterialTheme
 import com.example.cleanarchitecture.CountryApplication
-import com.example.cleanarchitecture.databinding.ActivityMainBinding
-import com.example.cleanarchitecture.ui.models.CountryListUIState
+import com.example.cleanarchitecture.ui.compose.StatefulCountryListScreen
 import com.example.cleanarchitecture.ui.viewmodels.CountryViewModel
 import com.example.cleanarchitecture.ui.viewmodels.factories.CountryViewModelFactory
-import com.example.cleanarchitecture.ui.views.CountryListAdapter
-import com.google.android.material.snackbar.Snackbar
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : ComponentActivity() {
 
-    private var _binding: ActivityMainBinding? = null
-    private val binding: ActivityMainBinding
-        get() = _binding!!
-
-    @Inject lateinit var countryViewModelFactory: CountryViewModelFactory
+    @Inject
+    lateinit var countryViewModelFactory: CountryViewModelFactory
     private val viewModel: CountryViewModel by viewModels {
         countryViewModelFactory
     }
@@ -34,59 +23,17 @@ class MainActivity : AppCompatActivity() {
         (application as CountryApplication).applicationComponent.inject(this)
         super.onCreate(savedInstanceState)
 
-        _binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-
-        val adapter = CountryListAdapter()
-        binding.countryList.adapter = adapter
-
-        lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.countryListState.collectLatest { countryListUIState ->
-                    when (countryListUIState) {
-                        is CountryListUIState.Loading -> {
-                            binding.progressBar.isVisible = true
-                        }
-
-                        is CountryListUIState.Success -> {
-                            binding.progressBar.isVisible = false
-                            showCountryList(adapter)
-                        }
-
-                        is CountryListUIState.Failure -> {
-                            binding.progressBar.isVisible = false
-                            Snackbar.make(
-                                binding.swipeToRefresh,
-                                getString((viewModel.countryListState.value as CountryListUIState.Failure).message),
-                                Snackbar.LENGTH_SHORT
-                            ).show()
-                        }
-
-                        is CountryListUIState.Initial -> viewModel.getCountries()
-                    }
-                }
+        setContent {
+            MaterialTheme {
+                StatefulCountryListScreen(
+                    viewModel = viewModel,
+                )
             }
         }
 
-        binding.searchBar.addTextChangedListener { editable ->
-            viewModel.fetchCountryListFromQuery(editable.toString())
-            showCountryList(adapter)
-        }
-
-        binding.swipeToRefresh.setOnRefreshListener {
-            binding.swipeToRefresh.isRefreshing = false
-            viewModel.getCountries()
-        }
-
-    }
-
-    private fun showCountryList(adapter: CountryListAdapter) {
-        val searchList = viewModel.fetchCountryListFromQuery()
-        adapter.submitList(searchList)
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        _binding = null
     }
 }

@@ -69,6 +69,12 @@ dependencies {
     // Coil with SVG image files
     implementation("io.coil-kt:coil-svg:2.5.0")
 
+    // For general image loading
+    implementation("io.coil-kt:coil-compose:2.6.0")
+
+    // For SVG support
+    implementation("io.coil-kt:coil-svg:2.6.0")
+
     //Swipe to refresh
     implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
 
@@ -83,6 +89,10 @@ dependencies {
 
     // Material 3 for Jetpack Compose
     implementation("androidx.compose.material3:material3")
+
+    // Jetpack Compose for Activities
+    implementation("androidx.activity:activity-compose:1.10.1")
+
 
     // Add full set of material icons
     implementation("androidx.compose.material:material-icons-extended")

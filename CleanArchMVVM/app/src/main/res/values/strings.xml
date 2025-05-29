@@ -4,4 +4,6 @@
     <string name="server_error">Issue with server occurred. Please try again</string>
     <string name="general_error">There is an error that occurred. Please try again!</string>
     <string name="search_hint">Search</string>
+
+    <string name="country_flag_image">Country Flag Image</string>
 </resources>

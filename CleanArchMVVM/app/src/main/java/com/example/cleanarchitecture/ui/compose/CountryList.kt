@@ -1,15 +1,17 @@
 package com.example.cleanarchitecture.ui.compose
 
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.example.cleanarchitecture.ui.models.CountryUIModel
 
 @Composable
-fun CountryList(modifier: Modifier = Modifier) {
+fun CountryList(countryList: List<CountryUIModel>, modifier: Modifier = Modifier) {
     LazyColumn(modifier = modifier) {
-        items(count = 3) {
-            CountryRow()
+        items(countryList) { countryItem ->
+            CountryRow(country = countryItem)
         }
     }
 }
@@ -17,5 +19,7 @@ fun CountryList(modifier: Modifier = Modifier) {
 @Preview(showBackground = true)
 @Composable
 private fun CountryListPreview() {
-    CountryList()
+    CountryList(countryList = List(3) { index ->
+        CountryUIModel(countryName = "United States", countryCode = "USA", imageURL = "")
+    })
 }
