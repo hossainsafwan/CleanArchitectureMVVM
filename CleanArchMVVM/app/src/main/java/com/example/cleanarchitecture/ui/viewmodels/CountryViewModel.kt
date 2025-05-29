@@ -14,9 +14,9 @@ import kotlinx.coroutines.launch
 
 class CountryViewModel(private val useCase: GetCountryUseCase) : ViewModel() {
 
-    private val _countryModel = MutableStateFlow<CountryListUIState>(CountryListUIState.Initial)
+    private val _countryListStatel = MutableStateFlow<CountryListUIState>(CountryListUIState.Initial)
     val countryListState: StateFlow<CountryListUIState>
-        get() = _countryModel
+        get() = _countryListStatel
 
     private val _searchQuery = MutableStateFlow<String>("")
     val searchQuery: StateFlow<String>
@@ -27,12 +27,12 @@ class CountryViewModel(private val useCase: GetCountryUseCase) : ViewModel() {
             useCase().collectLatest { resource ->
                 when (resource) {
                     is Resource.Loading -> {
-                        _countryModel.value = CountryListUIState.Loading
+                        _countryListStatel.value = CountryListUIState.Loading
                     }
 
                     is Resource.Success -> {
                         resource.data?.let { list ->
-                            _countryModel.value = (CountryListUIState.Success(
+                            _countryListStatel.value = (CountryListUIState.Success(
                                 data = list.map { country ->
                                     CountryUIModel(
                                         country.countryName,
@@ -45,7 +45,7 @@ class CountryViewModel(private val useCase: GetCountryUseCase) : ViewModel() {
                     }
 
                     is Resource.Error -> {
-                        _countryModel.value =
+                        _countryListStatel.value =
                             (CountryListUIState.Failure(message = resource.message!!))
                     }
                 }
@@ -55,7 +55,7 @@ class CountryViewModel(private val useCase: GetCountryUseCase) : ViewModel() {
 
     fun fetchCountryListFromQuery(query: String = searchQuery.value) {
         _searchQuery.value = query
-        _countryModel.value = (CountryListUIState.Success(
+        _countryListStatel.value = (CountryListUIState.Success(
             data = getQueriedCountryList()
         ))
     }
