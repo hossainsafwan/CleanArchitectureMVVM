@@ -14,9 +14,9 @@ import kotlinx.coroutines.launch
 
 class CountryViewModel(private val useCase: GetCountryUseCase) : ViewModel() {
 
-    private val _countryListStatel = MutableStateFlow<CountryListUIState>(CountryListUIState.Initial)
+    private val _countryListState = MutableStateFlow<CountryListUIState>(CountryListUIState.Initial)
     val countryListState: StateFlow<CountryListUIState>
-        get() = _countryListStatel
+        get() = _countryListState
 
     private val _searchQuery = MutableStateFlow<String>("")
     val searchQuery: StateFlow<String>
@@ -27,13 +27,15 @@ class CountryViewModel(private val useCase: GetCountryUseCase) : ViewModel() {
             useCase().collectLatest { resource ->
                 when (resource) {
                     is Resource.Loading -> {
-                        _countryListStatel.value = CountryListUIState.Loading
+                        _countryListState.value = CountryListUIState.Loading
                     }
 
                     is Resource.Success -> {
                         resource.data?.let { list ->
-                            _countryListStatel.value = (CountryListUIState.Success(
-                                data = list.map { country ->
+                            _countryListState.value = (CountryListUIState.Success(
+                                data = list.filter {
+                                    it.countryName.contains(searchQuery.value, true)
+                                }.map { country ->
                                     CountryUIModel(
                                         country.countryName,
                                         country.countryCode,
@@ -45,7 +47,7 @@ class CountryViewModel(private val useCase: GetCountryUseCase) : ViewModel() {
                     }
 
                     is Resource.Error -> {
-                        _countryListStatel.value =
+                        _countryListState.value =
                             (CountryListUIState.Failure(message = resource.message!!))
                     }
                 }
@@ -55,21 +57,6 @@ class CountryViewModel(private val useCase: GetCountryUseCase) : ViewModel() {
 
     fun fetchCountryListFromQuery(query: String = searchQuery.value) {
         _searchQuery.value = query
-        _countryListStatel.value = (CountryListUIState.Success(
-            data = getQueriedCountryList()
-        ))
-    }
-
-    private fun getQueriedCountryList() = if (countryListState.value is CountryListUIState.Loading ||
-        countryListState.value is CountryListUIState.Failure ||
-        countryListState.value is CountryListUIState.Initial
-    ) {
-        emptyList()
-    } else if (searchQuery.value.isEmpty()) {
-        ((countryListState.value) as CountryListUIState.Success).data
-    } else {
-        ((countryListState.value) as CountryListUIState.Success).data.filter {
-            it.countryName.contains(searchQuery.value, true)
-        }
+        getCountries()
     }
 }
