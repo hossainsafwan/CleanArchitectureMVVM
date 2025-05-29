@@ -8,7 +8,6 @@ import com.example.cleanarchitecture.ui.models.CountryUIModel
 import com.example.cleanarchitecture.util.Resource
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
