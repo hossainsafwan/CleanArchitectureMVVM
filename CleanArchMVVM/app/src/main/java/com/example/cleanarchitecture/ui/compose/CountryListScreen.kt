@@ -25,45 +25,40 @@ import com.example.cleanarchitecture.ui.models.CountryUIModel
 import com.example.cleanarchitecture.ui.viewmodels.CountryViewModel
 
 @Composable
-fun StatefulCountryListScreen(
-    viewModel: CountryViewModel? = null,
-) {
+fun StatefulCountryListScreen(viewModel: CountryViewModel) {
 
-    viewModel?.let {
-        val countryListUIState by viewModel.countryListState.collectAsStateWithLifecycle()
-        val searchValue by viewModel.searchQuery.collectAsStateWithLifecycle()
-        var isLoading by rememberSaveable { mutableStateOf(false) }
-        var countryList by rememberSaveable { mutableStateOf(emptyList<CountryUIModel>()) }
+    val countryListUIState by viewModel.countryListState.collectAsStateWithLifecycle()
+    val searchValue by viewModel.searchQuery.collectAsStateWithLifecycle()
+    var isLoading by rememberSaveable { mutableStateOf(false) }
+    var countryList by rememberSaveable { mutableStateOf(emptyList<CountryUIModel>()) }
 
-        when (countryListUIState) {
-            is CountryListUIState.Loading -> {
-                isLoading = true
-            }
-
-            is CountryListUIState.Success -> {
-                isLoading = false
-                countryList = (countryListUIState as CountryListUIState.Success).data
-            }
-
-            is CountryListUIState.Failure -> {
-                isLoading = false
-            }
-
-            is CountryListUIState.Initial -> {
-                isLoading = true
-                viewModel.getCountries()
-            }
+    when (countryListUIState) {
+        is CountryListUIState.Loading -> {
+            isLoading = true
         }
 
-        StatelessCountryListScreen(
-            countryList, searchValue, isLoading,
-            { query ->
-                viewModel.fetchCountryListFromQuery(query)
-            },
-            onRefresh = { viewModel.getCountries() },
-        )
+        is CountryListUIState.Success -> {
+            isLoading = false
+            countryList = (countryListUIState as CountryListUIState.Success).data
+        }
 
+        is CountryListUIState.Failure -> {
+            isLoading = false
+        }
+
+        is CountryListUIState.Initial -> {
+            isLoading = true
+            viewModel.getCountries()
+        }
     }
+
+    StatelessCountryListScreen(
+        countryList, searchValue, isLoading,
+        { query ->
+            viewModel.fetchCountryListFromQuery(query)
+        },
+        onRefresh = { viewModel.getCountries() },
+    )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
