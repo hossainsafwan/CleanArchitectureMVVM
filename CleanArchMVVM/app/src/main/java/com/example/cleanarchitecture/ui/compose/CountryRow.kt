@@ -3,7 +3,6 @@ package com.example.cleanarchitecture.ui.compose
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
@@ -29,7 +28,8 @@ fun CountryRow(country: CountryUIModel, modifier: Modifier = Modifier) {
 
     Row(
         modifier = modifier
-            .fillMaxWidth().wrapContentHeight()
+            .fillMaxWidth()
+            .wrapContentHeight()
             .padding(all = 8.dp),
     ) {
         AsyncImage(
@@ -41,7 +41,7 @@ fun CountryRow(country: CountryUIModel, modifier: Modifier = Modifier) {
             contentDescription = stringResource(R.string.country_flag_image),
             placeholder = rememberVectorPainter(Icons.Filled.Flag),
             modifier = Modifier
-                .size(32.dp)
+                .size(64.dp)
         )
         Column(
             modifier = Modifier
@@ -54,6 +54,7 @@ fun CountryRow(country: CountryUIModel, modifier: Modifier = Modifier) {
                 fontSize = 8.sp,
                 modifier = Modifier
                     .fillMaxWidth()
+                    .wrapContentHeight()
             )
         }
     }
