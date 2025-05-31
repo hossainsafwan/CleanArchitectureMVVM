@@ -1,5 +1,6 @@
 package com.example.cleanarchitecture.ui.compose
 
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
@@ -9,7 +10,7 @@ import com.example.cleanarchitecture.ui.models.CountryUIModel
 
 @Composable
 fun CountryList(countryList: List<CountryUIModel>, modifier: Modifier = Modifier) {
-    LazyColumn(modifier = modifier) {
+    LazyColumn(modifier = modifier.fillMaxSize()) {
         items(countryList) { countryItem ->
             CountryRow(country = countryItem)
         }

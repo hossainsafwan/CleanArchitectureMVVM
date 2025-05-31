@@ -26,7 +26,7 @@ class CountryViewModel(private val useCase: GetCountryUseCase) : ViewModel() {
             useCase().collectLatest { resource ->
                 when (resource) {
                     is Resource.Loading -> {
-                        _countryListState.value = CountryListUIState.Loading
+                        _countryListState.value = CountryListUIState.Loading()
                     }
 
                     is Resource.Success -> {
