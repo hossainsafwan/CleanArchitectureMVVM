@@ -47,27 +47,3 @@ fun StatefulCountryListScreen(viewModel: CountryViewModel) {
         onRefresh = { viewModel.getCountries() },
     )
 }
-
-@Preview(showBackground = true)
-@Composable
-private fun CountryListScreenPreview() {
-    var searchQuery by rememberSaveable { mutableStateOf("") }
-    var isRefreshing by rememberSaveable { mutableStateOf(false) }
-
-    StatelessCountryListScreen(
-        countryList = List(50) { index ->
-            CountryUIModel(
-                countryName = "Canada",
-                countryCode = "CN",
-                imageURL = ""
-            )
-        },
-        searchValue = searchQuery,
-        isLoading = isRefreshing,
-        onValueChange = { query ->
-            searchQuery = query
-        },
-        onRefresh = { },
-    )
-
-}
